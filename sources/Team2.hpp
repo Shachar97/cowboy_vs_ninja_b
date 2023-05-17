@@ -56,6 +56,8 @@ namespace ariel{
          *  attack orders: by order of joining the Team
          * 
          * @param enemyTeam pointer
+         * @exception invalid_argument- # nullptr enemy
+         * @exception runtime_error- # ghost army: empty team! # dead army: everyone died!
         */
         int attack(Team* enemyTeam) override;
 

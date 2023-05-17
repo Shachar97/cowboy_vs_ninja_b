@@ -88,7 +88,8 @@ namespace ariel{
          * @param myLeader pointer character
          * @param enemyTeam pointer
          * @return pointer to the closest enemy
-         * @exception runtime_error
+         * @exception invalid_argument- # Team is nullptr # character is nullptr
+         * @exception runtime_error- # Team is empty
         */
         Character* closestEnemy(Character* myLeader, Team* enemyTeam) const;
 
@@ -101,6 +102,9 @@ namespace ariel{
 
         /**
          * add character pointer in the end of the list.
+         * @exception runtime_error # nullptr soldier
+         * # soldier already in a team
+         * # Team is full
         */
         void add(Character* soldier);
 
@@ -119,13 +123,16 @@ namespace ariel{
          * attack orders: first Cowboys member, then Ninjas members
          * @param enemyTeam pointer
          * @return 1 if the enemy died in the mid of the attack else return 0.
-         * @exception invalid_argument: "nullptr enemy"
+         * @exception invalid_argument- # nullptr enemy
+         * @exception runtime_error- # ghost army: empty team! # dead army: everyone died!
         */
         virtual int attack(Team* enemyTeam);
 
         /**
          * @param team pointer
          * @return pointer to a life leader on the team or nullptr if all the soldier are dead
+         * @exception invalid_argument- Team is nullptr
+         * @exception runtime_error- Team is empty
         */
         Character* findLeader(Team* team) const;
 

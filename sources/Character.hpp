@@ -90,6 +90,7 @@ namespace ariel{
         /**
          * reduce hits(lives) to the character
          * @param damage how much to reduce
+         * @exception invalid_argument- # no negative damage
         */
         void hit(int damage);
 

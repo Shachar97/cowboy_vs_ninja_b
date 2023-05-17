@@ -103,6 +103,7 @@ namespace ariel{
          * @param src point
          * @param dst point
          * @param road meters toward dst
+         * @exception invalid_argument no negative distance
         */
         Point static moveTowards(const Point& src, const Point& dst, const double& road);
     };

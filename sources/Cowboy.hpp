@@ -65,6 +65,7 @@ namespace ariel{
 
         /**
          * @return boolean indication if bullets left
+         * @exception runtime_error when enemy/cowboy is dead or if the cowboy try to shoot himself
         */
         bool hasboolets();
 
@@ -75,6 +76,7 @@ namespace ariel{
 
         /**
          * resource the cowboy to 6 bullets
+         * @exception runtime_error if cowboy is dead (with no hits)
         */
         void reload();
 

@@ -63,7 +63,7 @@ namespace ariel{
         /**
          * given enemy get 40 hits damage if he near (less then 1 M) the Ninja
          * @param enemy character pointer
-         * @exception the enemy is already dead or not near the Ninja
+         * @exception runtime_error zombie or attacking dead or hurting himself
         */
         void slash(Character *enemy);
 

@@ -31,6 +31,8 @@ namespace ariel{
     Team2::Team2(Character *leader):Team(leader){}
     
     int Team2::attack(Team* enemyTeam){
+
+        /*throws*/
         if(!enemyTeam){
             throw std::invalid_argument("nullptr enemy\n");
         }
@@ -44,16 +46,16 @@ namespace ariel{
         if(enemyTeam->stillAlive()==0){
             throw std::runtime_error("dead army: everyone died!\n");
         }
+
+        /*closest enemy to leader*/
         Character* target;
 
+        /*attack by character order in team-array*/
         for(int i=0;i<this->getSize();i++){
             Cowboy* cowboy = dynamic_cast<Cowboy*>(this->getCharacterAt(i));
             if(cowboy){
                 if(cowboy->isAlive()){
                     if((target = this->closestEnemy(leader,enemyTeam))){
-                        if(!target){
-                            return 1; //enemy dead
-                        }
                         if(cowboy->hasboolets()){
                             cowboy->shoot(target);
                         }else{
@@ -65,9 +67,6 @@ namespace ariel{
                 Ninja* ninja = dynamic_cast<Ninja*>(this->getCharacterAt(i));
                 if(ninja->isAlive()){
                     if((target = this->closestEnemy(leader,enemyTeam))){
-                        if(!target){
-                            return 1; //enemy dead
-                        }
                         if(ninja->distance(target)>1){
                             ninja->move(target);
                         }else{
@@ -76,6 +75,10 @@ namespace ariel{
                     }
                 }
             }
+        }
+
+        if(enemyTeam->stillAlive()==0){
+            return 1;
         }
         return 0;
     }

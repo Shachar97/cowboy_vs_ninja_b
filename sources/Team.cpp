@@ -79,31 +79,32 @@ namespace ariel{
     }
 
     int Team::attack(Team* enemyTeam){
+
+        /*throws*/
         if(!enemyTeam){
             throw std::invalid_argument("nullptr enemy\n");
         }
         if(this->getSize()==0){
-            throw std::invalid_argument("ghost army: empty team!\n");
+            throw std::runtime_error("ghost army: empty team!\n");
         }
         Character* leader;
         if(!(leader=this->findLeader(this))){
-            throw std::invalid_argument("dead army: everyone died!\n");
+            throw std::runtime_error("dead army: everyone died!\n");
         }
-        
         if(enemyTeam->stillAlive()==0){
             throw std::runtime_error("dead army: everyone died!\n");
         }
+
+        /*closest to leader enemy character*/
         Character* target;
 
+        /*cowboys attack*/
         for(int i=0;i<this->getSize();i++){
             Cowboy* cowboy = dynamic_cast<Cowboy*>(_myTeam[i]);
             if(cowboy){
                 if(cowboy->isAlive()){
                     if((target = this->closestEnemy(leader,enemyTeam))){
-                        if(!target){
-                            return 1; //enemy dead
-                        }
-
+                        
                         if(cowboy->hasboolets()){
                             cowboy->shoot(target);
                         }else{
@@ -113,14 +114,18 @@ namespace ariel{
                 }
             }
         }
+
+        if(enemyTeam->stillAlive()==0){
+            return 1;
+        }
+
+        /*ninjas attack*/
         for(int i=0;i<this->getSize();i++){
             Ninja* ninja = dynamic_cast<Ninja*>(this->getCharacterAt(i));
             if(ninja){
                 if(ninja->isAlive()){
                     if((target = this->closestEnemy(leader,enemyTeam))){
-                        if(!target){
-                            return 1; //enemy dead
-                        }
+                        
                         if(ninja->distance(target)>1){
                             ninja->move(target);
                         }else{
@@ -130,6 +135,10 @@ namespace ariel{
                 }   
             }
         }
+
+        if(enemyTeam->stillAlive()==0){
+            return 1;
+        }
         return 0;
     }
 
@@ -137,7 +146,7 @@ namespace ariel{
         
         /*nullptr*/
         if(!team){
-            throw std::runtime_error("Team is nullptr\n");
+            throw std::invalid_argument("Team is nullptr\n");
         }
         /*no members in the team*/
         if(team->getSize()==0){
@@ -182,16 +191,19 @@ namespace ariel{
     }
 
     Character* Team::closestEnemy(Character* myLeader, Team* enemyTeam) const{
+        
+        /*throws*/
         if(!myLeader){
-            throw std::runtime_error("character is nullptr\n");
+            throw std::invalid_argument("character is nullptr\n");
         }
         if(!enemyTeam){
-            throw std::runtime_error("Team is nullptr\n");
+            throw std::invalid_argument("Team is nullptr\n");
         }
         if(enemyTeam->getSize()==0){
             throw std::runtime_error("Team is empty\n");
         }
 
+        /*smallest in array algorithm*/
         double closest = std::numeric_limits<int>::max();
         Character* newTarget=nullptr;
 
@@ -220,6 +232,7 @@ namespace ariel{
     }
 
     void Team::print(){
+        /*print cowboys*/
         for(int i=0;i<this->getSize();i++){
             Cowboy* cowboy = dynamic_cast<Cowboy*>(_myTeam[i]);
             if(cowboy){
@@ -228,6 +241,8 @@ namespace ariel{
             }
             
         }
+
+        /*print ninjas*/
         for(int i=0;i<this->getSize();i++){
             Cowboy* cowboy = dynamic_cast<Cowboy*>(_myTeam[i]);
             if(!cowboy){
